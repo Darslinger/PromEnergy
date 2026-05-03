@@ -1,0 +1,25 @@
+.tarifa-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: var(--ion-color-success-contrast);
+}
+.tarifa-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 3px 0;
+  color: var(--ion-color-success-contrast);
+}
+.tarifa-nota {
+  font-size: 11px;
+  margin-top: 8px;
+  opacity: 0.8;
+  color: var(--ion-color-success-contrast);
+}
+.msg-ok {
+  color: var(--ion-color-success);
+  font-size: 13px;
+  margin-top: 10px;
+  text-align: center;
+}
