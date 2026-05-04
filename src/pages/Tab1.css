@@ -1,9 +1,57 @@
+.bienvenida {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ion-color-medium);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.menu-card {
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: transform 0.1s;
+}
+
+.menu-card:active {
+  transform: scale(0.98);
+}
+
+.menu-card-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.menu-icon {
+  font-size: 40px;
+  color: var(--ion-color-primary);
+  flex-shrink: 0;
+}
+
+.menu-icon-yellow {
+  color: #f0a500;
+}
+
+.menu-titulo {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: var(--ion-color-dark);
+}
+
+.menu-desc {
+  font-size: 12px;
+  color: var(--ion-color-medium);
+  margin: 0;
+}
+
 .tarifa-title {
   font-weight: 600;
   font-size: 14px;
   margin-bottom: 8px;
   color: var(--ion-color-success-contrast);
 }
+
 .tarifa-row {
   display: flex;
   justify-content: space-between;
@@ -11,12 +59,14 @@
   padding: 3px 0;
   color: var(--ion-color-success-contrast);
 }
+
 .tarifa-nota {
   font-size: 11px;
   margin-top: 8px;
   opacity: 0.8;
   color: var(--ion-color-success-contrast);
 }
+
 .msg-ok {
   color: var(--ion-color-success);
   font-size: 13px;
