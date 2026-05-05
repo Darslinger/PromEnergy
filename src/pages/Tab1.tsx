@@ -13,17 +13,7 @@ const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
 const DIAS = Array.from({ length: 31 }, (_, i) => i + 1);
 
 function calcularPago(kwh: number): number {
-  let pago = 25;
-  if (kwh <= 100) {
-    pago += kwh * 1.4907;
-  } else if (kwh <= 300) {
-    pago += 100 * 1.4907 + (kwh - 100) * 2.5152;
-  } else if (kwh <= 500) {
-    pago += 100 * 1.4907 + 200 * 2.5152 + (kwh - 300) * 3.876;
-  } else {
-    pago += 100 * 1.4907 + 200 * 2.5152 + 200 * 3.876 + (kwh - 500) * 5.25;
-  }
-  return pago;
+  return 25 + (kwh * 5.73);
 }
 
 const Tab1: React.FC = () => {
@@ -93,17 +83,16 @@ const Tab1: React.FC = () => {
                 </div>
               </IonCardContent>
             </IonCard>
-
-            <IonCard color="success" style={{ marginTop: 16 }}>
-              <IonCardContent>
-                <p className="tarifa-title">Tarifas ENEE vigentes (L/kWh)</p>
-                <div className="tarifa-row"><span>0 – 100 kWh</span><span>L 1.4907</span></div>
-                <div className="tarifa-row"><span>101 – 300 kWh</span><span>L 2.5152</span></div>
-                <div className="tarifa-row"><span>301 – 500 kWh</span><span>L 3.8760</span></div>
-                <div className="tarifa-row"><span>Más de 500 kWh</span><span>L 5.2500</span></div>
-                <p className="tarifa-nota">Cargo fijo: L 25.00</p>
-              </IonCardContent>
-            </IonCard>
+            <IonCard color="success">
+  <IonCardContent>
+    <p className="tarifa-title">Tarifa ENEE vigente (L/kWh)</p>
+    <div className="tarifa-row">
+      <span>Precio por kWh</span><span>L 5.73</span>
+    </div>
+    <p className="tarifa-nota">Cargo fijo: L 25.00</p>
+  </IonCardContent>
+</IonCard>
+            
           </>
         )}
 
