@@ -25,15 +25,11 @@ export function limpiarRegistros() {
 }
 
 export function calcularPago(kwh: number): number {
-  let pago = 25;
-  if (kwh <= 100) {
-    pago += kwh * 1.4907;
-  } else if (kwh <= 300) {
-    pago += 100 * 1.4907 + (kwh - 100) * 2.5152;
-  } else if (kwh <= 500) {
-    pago += 100 * 1.4907 + 200 * 2.5152 + (kwh - 300) * 3.876;
+  let energia = 0;
+  if (kwh <= 50) {
+    energia = kwh * 4.40;
   } else {
-    pago += 100 * 1.4907 + 200 * 2.5152 + 200 * 3.876 + (kwh - 500) * 5.25;
+    energia = (50 * 4.40) + ((kwh - 50) * 5.73);
   }
-  return pago;
+  return energia + 59.31 + 8.39 + 116.17;
 }

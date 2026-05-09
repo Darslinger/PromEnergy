@@ -12,23 +12,20 @@ const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
                'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const DIAS = Array.from({ length: 31 }, (_, i) => i + 1);
 
-function calcularPago(kwh: number): number {
-  return 25 + (kwh * 5.73);
-}
+
 
 const Tab1: React.FC = () => {
   const hoy = new Date();
   const [vista, setVista] = useState<'menu' | 'diario' | 'rapido'>('menu');
 
-  // Registro diario
   const [dia, setDia] = useState<number>(hoy.getDate());
   const [mes, setMes] = useState<number>(hoy.getMonth() + 1);
   const [kwh, setKwh] = useState<string>('');
   const [msg, setMsg] = useState<string>('');
 
-  // Cálculo rápido
   const [kwhTotal, setKwhTotal] = useState<string>('');
   const [resultado, setResultado] = useState<number | null>(null);
+  const [desglose, setDesglose] = useState<{energia: number, total: number} | null>(null);
 
   const guardar = () => {
     const valor = parseFloat(kwh);
@@ -40,10 +37,18 @@ const Tab1: React.FC = () => {
   };
 
   const calcularRapido = () => {
-    const valor = parseFloat(kwhTotal);
-    if (isNaN(valor) || valor <= 0) return;
-    setResultado(calcularPago(valor));
-  };
+  const valor = parseFloat(kwhTotal);
+  if (isNaN(valor) || valor <= 0) return;
+  let energia = 0;
+  if (valor <= 50) {
+    energia = valor * 4.4023;
+  } else {
+    energia = (50 * 4.4090) + ((valor - 50) * 5.7364);
+  }
+  const total = energia + 59.31 + 8.39 + 116.17;
+  setResultado(total);
+  setDesglose({ energia, total });
+};
 
   return (
     <IonPage>
@@ -83,16 +88,17 @@ const Tab1: React.FC = () => {
                 </div>
               </IonCardContent>
             </IonCard>
+
             <IonCard color="success">
-  <IonCardContent>
-    <p className="tarifa-title">Tarifa ENEE vigente (L/kWh)</p>
-    <div className="tarifa-row">
-      <span>Precio por kWh</span><span>L 5.73</span>
-    </div>
-    <p className="tarifa-nota">Cargo fijo: L 25.00</p>
-  </IonCardContent>
-</IonCard>
-            
+              <IonCardContent>
+                <p className="tarifa-title">Tarifas ENEE vigentes (L/kWh)</p>
+                <div className="tarifa-row"><span>0 – 50 kWh</span><span>L 4.40</span></div>
+                <div className="tarifa-row"><span>Más de 50 kWh</span><span>L 5.73</span></div>
+                <div className="tarifa-row"><span>Comercialización</span><span>L 59.31</span></div>
+                <div className="tarifa-row"><span>Regulación</span><span>L 8.39</span></div>
+                <div className="tarifa-row"><span>Alumbrado público</span><span>L 116.17</span></div>
+              </IonCardContent>
+            </IonCard>
           </>
         )}
 
@@ -147,7 +153,7 @@ const Tab1: React.FC = () => {
         {/* ── CÁLCULO RÁPIDO ── */}
         {vista === 'rapido' && (
           <>
-            <IonButton fill="clear" onClick={() => { setVista('menu'); setResultado(null); setKwhTotal(''); }}>
+            <IonButton fill="clear" onClick={() => { setVista('menu'); setResultado(null); setKwhTotal(''); setDesglose(null); }}>
               ← Volver
             </IonButton>
             <IonCard>
@@ -157,8 +163,8 @@ const Tab1: React.FC = () => {
                   <IonInput
                     type="number"
                     value={kwhTotal}
-                    placeholder="ej. 500"
-                    onIonChange={e => { setKwhTotal(e.detail.value!); setResultado(null); }}
+                    placeholder="ej. 566"
+                    onIonChange={e => { setKwhTotal(e.detail.value!); setResultado(null); setDesglose(null); }}
                   />
                 </IonItem>
                 <IonButton
@@ -174,20 +180,48 @@ const Tab1: React.FC = () => {
               </IonCardContent>
             </IonCard>
 
-            {resultado !== null && (
-              <IonCard color="primary">
-                <IonCardContent style={{ textAlign: 'center' }}>
-                  <p style={{ fontSize: 13, opacity: 0.85, margin: 0, color: 'white' }}>
-                    Por {kwhTotal} kWh consumidos pagarás aproximadamente
-                  </p>
-                  <p style={{ fontSize: 40, fontWeight: 700, margin: '8px 0', color: 'white' }}>
-                    L {resultado.toFixed(2)}
-                  </p>
-                  <p style={{ fontSize: 11, opacity: 0.75, margin: 0, color: 'white' }}>
-                    Incluye cargo fijo L 25.00 — Tarifas ENEE
-                  </p>
-                </IonCardContent>
-              </IonCard>
+            {resultado !== null && desglose !== null && (
+              <>
+                <IonCard color="primary">
+                  <IonCardContent style={{ textAlign: 'center' }}>
+                    <p style={{ fontSize: 13, opacity: 0.85, margin: 0, color: 'white' }}>
+                      Por {kwhTotal} kWh consumidos pagarás aproximadamente
+                    </p>
+                    <p style={{ fontSize: 40, fontWeight: 700, margin: '8px 0', color: 'white' }}>
+                      L {resultado.toFixed(2)}
+                    </p>
+                    <p style={{ fontSize: 11, opacity: 0.75, margin: 0, color: 'white' }}>
+                      Comercialización L59.31 + Regulación L8.39 + Alumbrado L116.17
+                    </p>
+                  </IonCardContent>
+                </IonCard>
+
+                <IonCard>
+                  <IonCardContent>
+                    <p className="tarifa-title" style={{ color: 'var(--ion-color-dark)' }}>Desglose del pago</p>
+                    <div className="tarifa-row">
+                      <span>Energía consumida</span>
+                      <span>L {desglose.energia.toFixed(2)}</span>
+                    </div>
+                    <div className="tarifa-row">
+                      <span>Comercialización</span>
+                      <span>L 59.31</span>
+                    </div>
+                    <div className="tarifa-row">
+                      <span>Regulación</span>
+                      <span>L 8.39</span>
+                    </div>
+                    <div className="tarifa-row">
+                      <span>Alumbrado público</span>
+                      <span>L 116.17</span>
+                    </div>
+                    <div className="tarifa-row" style={{ fontWeight: 600, borderTop: '1px solid #ddd', marginTop: 8, paddingTop: 8 }}>
+                      <span>Total a pagar</span>
+                      <span>L {resultado.toFixed(2)}</span>
+                    </div>
+                  </IonCardContent>
+                </IonCard>
+              </>
             )}
           </>
         )}
