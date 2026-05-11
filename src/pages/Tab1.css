@@ -73,3 +73,59 @@
   margin-top: 10px;
   text-align: center;
 }
+
+.menu-icon-purple {
+  color: #7c3aed;
+}
+
+.control-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.control-icon-moon {
+  font-size: 24px;
+  color: #7c3aed;
+}
+
+.control-icon-sun {
+  font-size: 24px;
+  color: #f0a500;
+}
+
+.control-label {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--ion-color-dark);
+}
+
+.hora-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 0;
+}
+
+.hora-input {
+  max-width: 60px;
+}
+
+.minutos-input {
+  max-width: 55px;
+}
+
+.hora-separador {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ion-color-dark);
+  margin: 0 -2px;
+}
+
+.ampm-container {
+  display: flex;
+  gap: 6px;
+}
