@@ -129,3 +129,9 @@
   display: flex;
   gap: 6px;
 }
+.hora-separador {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ion-color-dark);
+  padding: 0 2px;
+}
