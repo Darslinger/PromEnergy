@@ -8,6 +8,8 @@ import { calendarOutline, flashOutline, addCircleOutline, calculatorOutline, spe
 import { agregarRegistro } from '../data/store';
 import './Tab1.css';
 import AsistenteIA from '../components/AsistenteIA';
+import EscaneoFoto from '../components/EscaneoFoto';
+
 const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
                'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
@@ -216,6 +218,21 @@ const Tab1: React.FC = () => {
                     onIonChange={e => setKwh(e.detail.value!)}
                   />
                 </IonItem>
+
+                {/* ── ESCANEO DE FOTOS ── */}
+                <div style={{ marginTop: 12, marginBottom: 4 }}>
+                  <p style={{ fontSize: 12, color: 'var(--ion-color-medium)', marginBottom: 4 }}>
+                    O escanea tu recibo y contador:
+                  </p>
+                  <EscaneoFoto
+                    onResultado={(recibo, contador) => {
+                      setKwh(recibo.toString());
+                      setMsg(`✅ Escaneado: ${recibo} kWh del recibo — contador en ${contador} kWh`);
+                      setTimeout(() => setMsg(''), 5000);
+                    }}
+                  />
+                </div>
+
                 <IonButton
                   expand="block"
                   className="ion-margin-top"

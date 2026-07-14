@@ -1,0 +1,59 @@
+.pasos-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: 16px;
+}
+
+.paso {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.paso span {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ion-color-light);
+  color: var(--ion-color-medium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  border: 2px solid var(--ion-color-medium);
+}
+
+.paso p {
+  font-size: 11px;
+  color: var(--ion-color-medium);
+  margin: 0;
+}
+
+.paso-activo span {
+  background: var(--ion-color-primary);
+  color: white;
+  border-color: var(--ion-color-primary);
+}
+
+.paso-activo p {
+  color: var(--ion-color-primary);
+  font-weight: 600;
+}
+
+.paso-done span {
+  background: var(--ion-color-success);
+  color: white;
+  border-color: var(--ion-color-success);
+}
+
+.paso-linea {
+  flex: 1;
+  height: 2px;
+  background: var(--ion-color-light);
+  margin: 0 8px;
+  margin-bottom: 20px;
+}
