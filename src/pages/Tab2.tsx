@@ -6,6 +6,7 @@ import {
 } from '@ionic/react';
 import { trashOutline } from 'ionicons/icons';
 import { registros, eliminarRegistro, limpiarRegistros, calcularPago } from '../data/store';
+import AsistenteIA from '../components/AsistenteIA';
 
 const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
                'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
@@ -72,6 +73,7 @@ const Tab2: React.FC = () => {
           ]}
         />
       </IonContent>
+      <AsistenteIA />
     </IonPage>
   );
 };

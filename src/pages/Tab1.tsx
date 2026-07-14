@@ -7,7 +7,7 @@ import {
 import { calendarOutline, flashOutline, addCircleOutline, calculatorOutline, speedometerOutline, sunny } from 'ionicons/icons';
 import { agregarRegistro } from '../data/store';
 import './Tab1.css';
-
+import AsistenteIA from '../components/AsistenteIA';
 const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
                'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
@@ -447,6 +447,7 @@ const Tab1: React.FC = () => {
         )}
 
       </IonContent>
+      <AsistenteIA />
     </IonPage>
   );
 };

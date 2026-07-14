@@ -4,7 +4,7 @@ import {
   IonCard, IonCardContent, IonProgressBar
 } from '@ionic/react';
 import { registros, calcularPago } from '../data/store';
-
+import AsistenteIA from '../components/AsistenteIA';
 const Tab3: React.FC = () => {
   const total = registros.reduce((s, r) => s + r.kwh, 0);
   const dias = registros.length;
@@ -56,6 +56,7 @@ const Tab3: React.FC = () => {
           </IonCardContent>
         </IonCard>
       </IonContent>
+      <AsistenteIA />
     </IonPage>
   );
 };
