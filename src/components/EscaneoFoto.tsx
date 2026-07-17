@@ -3,7 +3,7 @@ import {
   IonButton, IonIcon, IonModal, IonHeader, IonToolbar,
   IonTitle, IonContent, IonCard, IonCardContent, IonSpinner
 } from '@ionic/react';
-import { scanOutline, cameraOutline, closeOutline, checkmarkOutline } from 'ionicons/icons';
+import { scanOutline, cameraOutline, imagesOutline, closeOutline, checkmarkOutline } from 'ionicons/icons';
 import './EscaneoFoto.css';
 
 interface Props {
@@ -17,8 +17,11 @@ const EscaneoFoto: React.FC<Props> = ({ onResultado }) => {
   const [valorRecibo, setValorRecibo] = useState<number | null>(null);
   const [valorContador, setValorContador] = useState<number | null>(null);
   const [error, setError] = useState<string>('');
-  const inputRecibo = useRef<HTMLInputElement>(null);
-  const inputContador = useRef<HTMLInputElement>(null);
+
+  const inputReciboCamera = useRef<HTMLInputElement>(null);
+  const inputReciboGaleria = useRef<HTMLInputElement>(null);
+  const inputContadorCamera = useRef<HTMLInputElement>(null);
+  const inputContadorGaleria = useRef<HTMLInputElement>(null);
 
   const escanearImagen = async (archivo: File, tipo: 'recibo' | 'contador') => {
     setCargando(true);
@@ -52,7 +55,7 @@ const EscaneoFoto: React.FC<Props> = ({ onResultado }) => {
           setPaso('resultado');
         }
       }
-    } catch (e) {
+    } catch (_e) {
       setError('Error al procesar la imagen. Intenta de nuevo.');
     } finally {
       setCargando(false);
@@ -111,13 +114,14 @@ const EscaneoFoto: React.FC<Props> = ({ onResultado }) => {
             </div>
           </div>
 
+          {/* ── PASO 1: RECIBO ── */}
           {paso === 'recibo' && (
             <IonCard>
               <IonCardContent style={{ textAlign: 'center' }}>
                 <p style={{ fontSize: 40 }}>📄</p>
                 <h2 style={{ fontWeight: 600, marginBottom: 8 }}>Foto del recibo</h2>
                 <p style={{ color: 'var(--ion-color-medium)', fontSize: 14, marginBottom: 16 }}>
-                  Toma una foto de tu recibo de luz de la ENEE.
+                  Toma una foto o selecciona desde tu galería.
                 </p>
                 {cargando ? (
                   <div style={{ textAlign: 'center', padding: 20 }}>
@@ -125,17 +129,25 @@ const EscaneoFoto: React.FC<Props> = ({ onResultado }) => {
                     <p style={{ marginTop: 8 }}>Leyendo recibo...</p>
                   </div>
                 ) : (
-                  <IonButton expand="block" onClick={() => inputRecibo.current?.click()}>
-                    <IonIcon slot="start" icon={cameraOutline} />
-                    Tomar/subir foto del recibo
-                  </IonButton>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <IonButton expand="block" onClick={() => inputReciboCamera.current?.click()}>
+                      <IonIcon slot="start" icon={cameraOutline} />
+                      Tomar foto
+                    </IonButton>
+                    <IonButton expand="block" fill="outline" onClick={() => inputReciboGaleria.current?.click()}>
+                      <IonIcon slot="start" icon={imagesOutline} />
+                      Elegir de galería
+                    </IonButton>
+                  </div>
                 )}
-                <input ref={inputRecibo} type="file" accept="image/*" capture="environment" style={{ display: 'none' }} onChange={e => handleArchivo(e, 'recibo')} />
+                <input ref={inputReciboCamera} type="file" accept="image/*" capture="environment" style={{ display: 'none' }} onChange={e => handleArchivo(e, 'recibo')} />
+                <input ref={inputReciboGaleria} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleArchivo(e, 'recibo')} />
                 {error && <p style={{ color: 'red', marginTop: 8, fontSize: 13 }}>{error}</p>}
               </IonCardContent>
             </IonCard>
           )}
 
+          {/* ── PASO 2: CONTADOR ── */}
           {paso === 'contador' && (
             <IonCard>
               <IonCardContent style={{ textAlign: 'center' }}>
@@ -148,7 +160,7 @@ const EscaneoFoto: React.FC<Props> = ({ onResultado }) => {
                 <p style={{ fontSize: 40 }}>⚡</p>
                 <h2 style={{ fontWeight: 600, marginBottom: 8 }}>Foto del contador</h2>
                 <p style={{ color: 'var(--ion-color-medium)', fontSize: 14, marginBottom: 16 }}>
-                  Ahora toma una foto del medidor eléctrico en tu casa.
+                  Toma una foto o selecciona desde tu galería.
                 </p>
                 {cargando ? (
                   <div style={{ textAlign: 'center', padding: 20 }}>
@@ -156,17 +168,25 @@ const EscaneoFoto: React.FC<Props> = ({ onResultado }) => {
                     <p style={{ marginTop: 8 }}>Leyendo contador...</p>
                   </div>
                 ) : (
-                  <IonButton expand="block" color="warning" onClick={() => inputContador.current?.click()}>
-                    <IonIcon slot="start" icon={cameraOutline} />
-                    Tomar/subir foto del contador
-                  </IonButton>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <IonButton expand="block" color="warning" onClick={() => inputContadorCamera.current?.click()}>
+                      <IonIcon slot="start" icon={cameraOutline} />
+                      Tomar foto
+                    </IonButton>
+                    <IonButton expand="block" fill="outline" color="warning" onClick={() => inputContadorGaleria.current?.click()}>
+                      <IonIcon slot="start" icon={imagesOutline} />
+                      Elegir de galería
+                    </IonButton>
+                  </div>
                 )}
-                <input ref={inputContador} type="file" accept="image/*" capture="environment" style={{ display: 'none' }} onChange={e => handleArchivo(e, 'contador')} />
+                <input ref={inputContadorCamera} type="file" accept="image/*" capture="environment" style={{ display: 'none' }} onChange={e => handleArchivo(e, 'contador')} />
+                <input ref={inputContadorGaleria} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleArchivo(e, 'contador')} />
                 {error && <p style={{ color: 'red', marginTop: 8, fontSize: 13 }}>{error}</p>}
               </IonCardContent>
             </IonCard>
           )}
 
+          {/* ── PASO 3: RESULTADO ── */}
           {paso === 'resultado' && (
             <IonCard>
               <IonCardContent style={{ textAlign: 'center' }}>
@@ -190,6 +210,7 @@ const EscaneoFoto: React.FC<Props> = ({ onResultado }) => {
               </IonCardContent>
             </IonCard>
           )}
+
         </IonContent>
       </IonModal>
     </>
