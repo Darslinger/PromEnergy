@@ -43,12 +43,12 @@ const handler: Handler = async (event) => {
       statusCode: 200,
       body: JSON.stringify({ valor: numero })
     };
-  } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'Error interno' })
-    };
+  } catch {
+  return {
+    statusCode: 500,
+    body: JSON.stringify({ error: 'Error interno' })
+  };
+}
   }
-};
 
 export { handler };
