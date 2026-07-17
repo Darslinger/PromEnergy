@@ -27,13 +27,24 @@ const EscaneoFoto: React.FC<Props> = ({ onResultado }) => {
     setCargando(true);
     setError('');
     try {
+      // Comprimir imagen antes de enviar
       const base64 = await new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const result = reader.result as string;
-          resolve(result.split(',')[1]);
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d')!;
+        const img = new Image();
+        img.onload = () => {
+          const maxSize = 800;
+          let w = img.width;
+          let h = img.height;
+          if (w > h && w > maxSize) { h = h * maxSize / w; w = maxSize; }
+          else if (h > maxSize) { w = w * maxSize / h; h = maxSize; }
+          canvas.width = w;
+          canvas.height = h;
+          ctx.drawImage(img, 0, 0, w, h);
+          const data = canvas.toDataURL('image/jpeg', 0.7);
+          resolve(data.split(',')[1]);
         };
-        reader.readAsDataURL(archivo);
+        img.src = URL.createObjectURL(archivo);
       });
 
       const response = await fetch('/.netlify/functions/escanear', {
